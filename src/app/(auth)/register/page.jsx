@@ -1,83 +1,161 @@
+"use client";
+import Link from "next/link";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import registerService from "@/service/auth.service";
+import { register } from "@/service/register";
 
-'use client'
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-
-export default function Page() {
-    const routers = useRouter()
-    async function handleRegister(userInputSignUp) {
-        
-        const newUserInputSignUp = {
-            firsName:userInputSignUp.get('firsName'),
-            lastName:userInputSignUp.get('lastName'),
-            email:userInputSignUp.get('email'),
-            password:userInputSignUp.get('password'),
-            passwordConfirm:userInputSignUp.get('passwordConfirm')
+export default function Register() {
+    const router = useRouter();
+    const registerHadler = async (data) => {
+        const userDetail = {
+            email: data.get("email"),
+            password: data.get("password"),
+            firstname: data.get("firstname"),
+            lastname: data.get("lastname"),
+            gender: data.get("gender"),
+            profile_url: "string",
+        };
+        console.log(userDetail);
+        const response = await register(userDetail);
+        console.log(response);
+        if (response.status == 200) {
+            console.log("ok");
+            router.push("/login");
         }
-    }
+    };
     return (
         <>
-            <div className="min-h-10 bg-gray-100 text-gray-900 flex justify-center">
-                <div className=" m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
-                    <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
-                        <div className="flex justify-between">
-                            <Image src={"/assets/icons/logo.svg"} width={150} height={100} />
-                            <Image src={"/assets/icons/arrow.svg"} width={25} height={30} />
-                        </div>
-
-                        <form>
-                            <div className="grid gap-6 mb-6 md:grid-cols-2 mt-4">
-                                <div>
-                                    <label for="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First name</label>
-                                    <input type="text"
-                                        name='firstName'
-
-                                        id="first_name" className="peer h-10 w-full rounded-md bg-gray-50 px-4 font-thin outline-none drop-shadow-sm transition-all duration-200 ease-in-out text-black" placeholder="chhunyeang" required />
-                                </div>
-                                <div>
-                                    <label for="last_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last name</label>
-                                    <input type="text"
-                                        name='lastName'
-                                        id="last_name" className="peer h-10 w-full rounded-md bg-gray-50 px-4 font-thin outline-none drop-shadow-sm transition-all duration-200 ease-in-out text-black" placeholder="yeang" required />
-                                </div>
-                                <div>
-                                    <label for="company" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                                    <input type="email"
-                                        name='email'
-                                        id="company" className="peer h-10 w-full rounded-md bg-gray-50 px-4 font-thin outline-none drop-shadow-sm transition-all duration-200 ease-in-out text-black" placeholder="chhunyeangseng@gmail.com" />
-                                </div>
-                                <div>
-                                    <label for="phone" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone number</label>
-                                    <input type="tel"
-                                    name='tel'
-                                    id="phone" className="peer h-10 w-full rounded-md bg-gray-50 px-4 font-thin outline-none drop-shadow-sm transition-all duration-200 ease-in-out text-black" placeholder="0123456789" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" required />
-                                </div>
-                                <div>
-                                    <label for="website" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">password</label>
-                                    <input type="password"
-                                    name='password'
-                                    id="website" className="peer h-10 w-full rounded-md bg-gray-50 px-4 font-thin outline-none drop-shadow-sm transition-all duration-200 ease-in-out text-black" placeholder="××××××××××××××" required />
-                                </div>
-                                <div>
-                                    <label for="visitors" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> comfirm password</label>
-                                    <input type="password"
-                                    name='passwordCofirm'
-                                    id="visitors" className="peer h-10 w-full rounded-md bg-gray-50 px-4 font-thin outline-none drop-shadow-sm transition-all duration-200 ease-in-out text-black" placeholder="××××××××××××××" required />
-                                </div>
+            <div className="min-h-screen flex justify-center items-center">
+                <div className="md:w-1/2 px-28">
+                    <div className="pb-10">
+                        <Image
+                            width={175}
+                            height={110}
+                            src={"/assets/icons/logo.svg"}
+                            alt="logo"
+                        />
+                    </div>
+                    <form className="max-w-full mx-auto" action={registerHadler}>
+                        <div className="grid md:grid-cols-2 md:gap-6">
+                            <div className="relative z-0 w-full mb-5 group">
+                                <label
+                                    htmlFor="name"
+                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                >
+                                    First Name
+                                </label>
+                                <input
+                                    className="p-2 w-full rounded-[8px] border"
+                                    type="text"
+                                    name="firstname"
+                                    placeholder="Enter your name"
+                                />
                             </div>
-
-                            <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Sign Up</button>
-                        </form>
-
-                    </div>
-                    <div className="flex  text-center  lg:flex">
-                        <div className="m-12 xl:m-16  bg-contain bg-center bg-no-repeat">
-                            <Image src={"/image/register.jpg"} width={400} height={400} />
+                            <div className="relative z-0 w-full mb-5 group">
+                                <label
+                                    htmlFor="name"
+                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                >
+                                    Last Name
+                                </label>
+                                <input
+                                    className="p-2 w-full rounded-[8px] border"
+                                    type="text"
+                                    name="lastname"
+                                    placeholder="Enter your name"
+                                />
+                            </div>
                         </div>
-                    </div>
+                        <div className="grid md:grid-cols-2 md:gap-6 ">
+                            <div className="relative z-0 w-full group">
+                                <label
+                                    htmlFor="email"
+                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                >
+                                    Email :
+                                </label>
+                                <input
+                                    className="p-2 w-full rounded-[8px] border"
+                                    type="email"
+                                    name="email"
+                                    placeholder="Email"
+                                />
+                            </div>
+                            <div className="relative z-0 w-full mb-5 group">
+                                <label
+                                    htmlFor="email"
+                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                >
+                                    Gender :
+                                </label>
+                                <select
+                                    id="gender"
+                                    name="gender"
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                >
+                                    <option value="" disabled selected>
+                                        Choose your gender
+                                    </option>
+                                    <option value="F">Female</option>
+                                    <option value="M">Male</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div className="grid md:grid-cols-2 md:gap-6">
+                            <div className="relative z-0 w-full mb-5 group">
+                                <label
+                                    htmlFor="password"
+                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                >
+                                    Password
+                                </label>
+                                <input
+                                    className="p-2 w-full rounded-[8px] border"
+                                    type="password"
+                                    name="password"
+                                    placeholder="•••••••••••"
+                                />
+                            </div>
+                            <div className="relative z-0 w-full mb-5 group">
+                                <label
+                                    htmlFor="name"
+                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                >
+                                    Confirm Password
+                                </label>
+                                <input
+                                    className="p-2 w-full rounded-[8px] border"
+                                    type="password"
+                                    placeholder="•••••••••••"
+                                />
+                            </div>
+                        </div>
+                        <p className="text-[#D3D3D3]">
+                            Have you already an account?
+                            <Link href={"/login"} className="text-blue-500">
+                                {" "}
+                                Login
+                            </Link>
+                        </p>
+                        <button
+                            type="submit"
+                            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-10 py-2.5 mt-5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        >
+                            Sign Up
+                        </button>
+                    </form>
+                </div>
+                <div className="flex items-center">
+                    <Image
+                        className="rounded-2xl"
+                        width={400}
+                        height={500}
+                        src={"/assets/icons/sign-up.svg"}
+                        alt="login form image"
+                    />
                 </div>
             </div>
-
         </>
-    )
+    );
 }

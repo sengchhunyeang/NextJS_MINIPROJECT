@@ -7,11 +7,12 @@ export const loginService = async (userInput) => {
         },
     });
     const data = await res.json();
-    if(data.token){
+    if (data.token) {
         return data;
-    }else{
+    } else {
         return null;
     }
-   
-   
+
+
 };
+
