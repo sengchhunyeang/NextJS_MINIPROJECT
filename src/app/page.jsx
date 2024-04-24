@@ -1,11 +1,9 @@
 
-import LoginPage from "@/components/LoginPage";
-import Link from 'next/link'
-
+import LoginPage from "@/app/(auth)/login/page";
 
 export default function Home() {
   return <main>
     <LoginPage/>
   </main>
- 
+
 }
